@@ -2,62 +2,66 @@ pipeline {
     agent any
 
     environment {
-        TARGET_BRANCH = "main"
-        SOURCE_BRANCH = "pritesh/test/jenkins"
-        REPO_URL = 'https://github.com/Pritesh-Kadam-10/Demo.git'
+        OLD_BRANCH = 'main'
+        NEW_BRANCH = 'pritesh/test/jenkins'
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                sh 'rm -rf workspace_old workspace_new'
-                sh 'mkdir workspace_old workspace_new'
-                
-                echo '📦 Cloning main branch (OLD files)...'
+                sh 'rm -rf workspace_old workspace_new output || true'
+                sh 'mkdir workspace_old workspace_new output'
+
+                echo "📦 Cloning ${OLD_BRANCH} branch (OLD files)..."
                 dir('workspace_old') {
-                    git branch: "${TARGET_BRANCH}", url: "${REPO_URL}"
+                    git branch: "${OLD_BRANCH}", url: 'https://github.com/Pritesh-Kadam-10/Demo.git'
                 }
 
-                echo '📦 Cloning PR branch (NEW files)...'
+                echo "📦 Cloning ${NEW_BRANCH} branch (NEW files)..."
                 dir('workspace_new') {
-                    git branch: "${SOURCE_BRANCH}", url: "${REPO_URL}"
+                    git branch: "${NEW_BRANCH}", url: 'https://github.com/Pritesh-Kadam-10/Demo.git'
                 }
             }
         }
 
         stage('Prepare Changed Files') {
             steps {
-                sh '''
                 echo '🛠 Identifying changed files...'
-                
-                cd workspace_new
-                git fetch origin ${TARGET_BRANCH}
-                git diff --name-only origin/${TARGET_BRANCH}..origin/${SOURCE_BRANCH} > ../changed_files.txt || true
-                cd ..
+                script {
+                    dir('workspace_new') {
+                        sh 'git fetch origin ${OLD_BRANCH}'
+                    }
 
-                mkdir -p output/old_files
-                mkdir -p output/new_files
+                    def changedFiles = sh(script: """
+                        cd workspace_new
+                        git diff --name-only origin/${OLD_BRANCH}..origin/${NEW_BRANCH}
+                    """, returnStdout: true).trim()
 
-                echo '📋 Copying only changed files...'
-                while IFS= read -r file; do
-                  if [ -f "workspace_old/$file" ]; then
-                    mkdir -p output/old_files/$(dirname "$file")
-                    cp "workspace_old/$file" "output/old_files/$file"
-                  fi
-                  if [ -f "workspace_new/$file" ]; then
-                    mkdir -p output/new_files/$(dirname "$file")
-                    cp "workspace_new/$file" "output/new_files/$file"
-                  fi
-                done < changed_files.txt
+                    if (changedFiles) {
+                        echo "✅ Files changed:\n${changedFiles}"
 
-                echo '✅ Old and new files ready inside output/ folder.'
-                '''
+                        // Copy files
+                        for (file in changedFiles.split("\\n")) {
+                            sh """
+                                mkdir -p output/old_files/\$(dirname ${file})
+                                mkdir -p output/new_files/\$(dirname ${file})
+                                cp -r workspace_old/${file} output/old_files/${file} || true
+                                cp -r workspace_new/${file} output/new_files/${file} || true
+                            """
+                        }
+                        echo '✅ Old and new files ready inside output/ folder.'
+                    } else {
+                        echo '⚠️ No files changed between the branches!'
+                        sh 'mkdir -p output/empty'
+                        sh 'echo "No changes detected." > output/empty/info.txt'
+                    }
+                }
             }
         }
 
         stage('Archive Outputs') {
             steps {
-                archiveArtifacts artifacts: 'output/**', fingerprint: true
+                archiveArtifacts artifacts: 'output/**', allowEmptyArchive: false
             }
         }
     }
