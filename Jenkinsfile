@@ -61,7 +61,23 @@ pipeline {
 
         stage('Archive Outputs') {
             steps {
-                archiveArtifacts artifacts: 'output/**', allowEmptyArchive: TRUE
+                archiveArtifacts artifacts: 'output/**', allowEmptyArchive: true
+            }
+        }
+
+        stage('Send Files for Comparison') {
+            steps {
+                script {
+                    echo '🚀 Sending files to comparison service...'
+                    sh """
+                        zip -r output/old_files.zip output/old_files
+                        zip -r output/new_files.zip output/new_files
+
+                        curl -X POST http://your-service-url/compare \
+                        -F "oldFiles=@output/old_files.zip" \
+                        -F "newFiles=@output/new_files.zip"
+                    """
+                }
             }
         }
     }
