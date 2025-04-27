@@ -1,9 +1,14 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'COMPARISON_SERVER_URL', defaultValue: 'http://192.168.1.38:9000/getFiles', description: 'URL of the comparison service')
+    }
+
     environment {
         OLD_BRANCH = 'main'
         NEW_BRANCH = 'pritesh/test/jenkins'
+        
     }
 
     stages {
@@ -77,7 +82,7 @@ pipeline {
                         zip -r new_files.zip new_files || echo "No new files to zip"
                         cd ..
 
-                        curl -X POST http://172.25.10.147:9000/getFiles \
+                        curl -X POST ${params.COMPARISON_SERVER_URL} \
                         -F "oldFiles=@output/old_files.zip" \
                         -F "newFiles=@output/new_files.zip"
                     """
