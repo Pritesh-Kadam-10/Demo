@@ -40,16 +40,18 @@ pipeline {
                     if (changedFiles) {
                         echo "✅ Files changed:\n${changedFiles}"
 
-                        // Copy files
                         for (file in changedFiles.split("\\n")) {
-                            sh """
-                                mkdir -p output/old_files/\$(dirname ${file})
-                                mkdir -p output/new_files/\$(dirname ${file})
-                                cp -r workspace_old/${file} output/old_files/${file} || true
-                                cp -r workspace_new/${file} output/new_files/${file} || true
-                            """
+                            file = file.trim()
+                            if (file) {
+                                sh """
+                                    mkdir -p "output/old_files/\$(dirname \"${file}\")"
+                                    mkdir -p "output/new_files/\$(dirname \"${file}\")"
+                                    if [ -f "workspace_old/${file}" ]; then cp -r "workspace_old/${file}" "output/old_files/${file}"; fi
+                                    if [ -f "workspace_new/${file}" ]; then cp -r "workspace_new/${file}" "output/new_files/${file}"; fi
+                                """
+                            }
                         }
-                        echo '✅ Old and new files ready inside output/ folder.'
+                        echo '✅ Old and new files are prepared inside output/ folder.'
                     } else {
                         echo '⚠️ No files changed between the branches!'
                         sh 'mkdir -p output/empty'
@@ -68,10 +70,12 @@ pipeline {
         stage('Send Files for Comparison') {
             steps {
                 script {
-                    echo '🚀 Sending files to comparison service...'
+                    echo '🚀 Zipping and sending files to comparison service...'
                     sh """
-                        zip -r output/old_files.zip output/old_files
-                        zip -r output/new_files.zip output/new_files
+                        cd output
+                        zip -r old_files.zip old_files || echo "No old files to zip"
+                        zip -r new_files.zip new_files || echo "No new files to zip"
+                        cd ..
 
                         curl -X POST http://172.25.10.147:9000/getFiles \
                         -F "oldFiles=@output/old_files.zip" \
