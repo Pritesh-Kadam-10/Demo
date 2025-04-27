@@ -36,10 +36,79 @@ class CodeAnalyzer:
 
         return files
 
-
     def check_camel_casing(self, content):
         snake_case = re.findall(r'\b[a-z]+_[a-z0-9_]+\b', content)
         return snake_case
+
+    def create_test_files(self, folder_path):
+        """Create test files with intentional bugs, warnings, and style issues."""
+        folder = Path(folder_path)
+        folder.mkdir(parents=True, exist_ok=True)
+
+        # Python file with issues
+        (folder / "test_sample.py").write_text('''
+def my_function():
+    my_var = 5
+    print("Value is:", my_var)
+
+def bad_function_name():
+    snake_case_variable = 10
+    print(snake_case_variable)
+''')
+
+        # Java file with issues
+        (folder / "TestSample.java").write_text('''
+public class TestSample {
+    public static void main(String[] args) {
+        int snake_case_var = 10;
+        System.out.println("Hello, World!");
+    }
+}
+''')
+
+        # C++ file with issues
+        (folder / "test_sample.cpp").write_text('''
+#include<iostream>
+using namespace std;
+
+int main() {
+    int snake_case_var = 5;
+    cout << "Value: " << snake_case_var << endl;
+    return 0;
+}
+''')
+
+        # JavaScript file with issues
+        (folder / "test_sample.js").write_text('''
+function myFunction() {
+    var snake_case_var = 5;
+    console.log("Value is: ", snake_case_var);
+}
+myFunction();
+''')
+
+        # TypeScript file
+        (folder / "test_sample.ts").write_text('''
+function greet(name: string): void {
+    let snake_case_name = name;
+    console.log("Hello, " + snake_case_name);
+}
+greet("TypeScript");
+''')
+
+        # Go file
+        (folder / "test_sample.go").write_text('''
+package main
+
+import "fmt"
+
+func main() {
+    snake_case_var := 5
+    fmt.Println("Value is:", snake_case_var)
+}
+''')
+
+        print("✅ Test files created successfully!")
 
 class AnalysisPipeline:
     def __init__(self):
@@ -109,5 +178,5 @@ class AnalysisPipeline:
         report_lines.append("\n" + "=" * 80)
         report_lines.append("                       END OF REPORT")
         report_lines.append("=" * 80)
-
+        
         return '\n'.join(report_lines)
