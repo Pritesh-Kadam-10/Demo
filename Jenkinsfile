@@ -73,7 +73,7 @@ pipeline {
                         zip -r output/old_files.zip output/old_files
                         zip -r output/new_files.zip output/new_files
 
-                        curl -X POST http://your-service-url/compare \
+                        curl -X POST http://172.25.10.147:9000/getFiles \
                         -F "oldFiles=@output/old_files.zip" \
                         -F "newFiles=@output/new_files.zip"
                     """
