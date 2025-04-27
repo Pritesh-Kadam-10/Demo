@@ -77,7 +77,7 @@ pipeline {
                         zip -r new_files.zip new_files || echo "No new files to zip"
                         cd ..
 
-                        curl -X POST http://172.25.10.147:9000/getFiles \
+                        curl -X POST http://192.168.1.38:9000/getFiles \
                         -F "oldFiles=@output/old_files.zip" \
                         -F "newFiles=@output/new_files.zip"
                     """
