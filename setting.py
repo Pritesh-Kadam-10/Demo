@@ -1,1 +1,1 @@
-MODEL_NAME = "gemini-1.5-pro" 
+MODEL_NAME = "gemini-1.5-prokjgjmhgmjg" 
