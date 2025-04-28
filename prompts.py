@@ -3,4 +3,4 @@ class Prompts:
     def analysis_prompt():
         return """Analyze code files and categorize issues by severity. Follow this structure:
 
-       retghjmk,l./sdfgbhnm,./erghjk,.erfghjk,.erfghjnm,"""
+       """
