@@ -105,16 +105,16 @@
 #         print("\n✅ Report generated: 'comparison_report.txt'.")
 
 
-# def main():
-#     print("=== Folder Comparison Script ===\n")
-#     folder1 = r"C:\workitem\AITHON\Medical project\code reviewer\src_old"
-#     folder2 = r"C:\workitem\AITHON\Medical project\code reviewer\src"
-#     review = reviewLLM()
-#     review.generate_report(folder1, folder2)
+def main():
+    print("=== Folder Comparison Script ===\n")
+    folder1 = r"C:\workitem\AITHON\Medical project\code reviewer\src_old"
+    folder2 = r"C:\workitem\AITHON\Medical project\code reviewer\src"
+    review = reviewLLM()
+    review.generate_report(folder1, folder2)
 
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
 
 
 
