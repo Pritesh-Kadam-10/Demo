@@ -147,6 +147,10 @@ class compareLLM:
         except AttributeError:
             return "No explanation received from Gemini."
 
+    def get_added_lines(self, old_lines, new_lines):
+        diff = difflib.unified_diff(old_lines, new_lines, lineterm='')
+        )]
+        return added
 
     def get_removed_lines(self, old_lines, new_lines):
         diff = difflib.unified_diff(old_lines, new_lines, lineterm='')
