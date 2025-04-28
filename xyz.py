@@ -1,1 +1,1 @@
-MODEL_NAME = "gemini-1.5-prokjgjmhgmjgasghgghjgjjhrthdtyhyhdytjufuyfuyfdkjvkjasdvhadfdfvzczFa" 
+MODEL_NAME = "gemini-1.5-prokjgjmhgmjgasghgghjgjjhrthyhdytjufuyfuyfdkjvkjasdvhadfdfvzczFa" 
