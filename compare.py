@@ -61,7 +61,7 @@
 #             return file.readlines()
 
 #     def generate_report(self, folder1, folder2):
-#         """Generates a short comparison report with added/removed modules and explanations."""
+
 #         with open('comparison_report.txt', 'w', encoding='utf-8') as report:
 #             report.write("=== FOLDER COMPARISON REPORT ===\n\n")
 
