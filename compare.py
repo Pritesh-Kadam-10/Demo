@@ -113,8 +113,8 @@ def main():
     review.generate_report(folder1, folder2)
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 
 
 
