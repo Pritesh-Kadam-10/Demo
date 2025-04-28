@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'COMPARISON_SERVER_URL', defaultValue: 'http://172.25.10.147:9000/getFiles', description: 'URL of the comparison service')
+        string(name: 'COMPARISON_SERVER_URL', defaultValue: 'http://172.25.10.159:9000/getFiles', description: 'URL of the comparison service')
     }
 
     environment {
