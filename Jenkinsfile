@@ -1,17 +1,24 @@
 pipeline {
     agent any
 
-    parameters {
-        string(name: 'COMPARISON_SERVER_URL', defaultValue: 'http://172.25.10.159:9000/getFiles', description: 'URL of the comparison service')
-    }
-
     environment {
         OLD_BRANCH = 'main'
         NEW_BRANCH = 'pritesh/test/jenkins'
-        
     }
 
     stages {
+        stage('Load Parameters Dynamically') {
+            steps {
+                script {
+                    properties([
+                        parameters([
+                            string(name: 'COMPARISON_SERVER_URL', defaultValue: 'http://172.25.10.159:9000/getFiles', description: 'URL of the comparison service')
+                        ])
+                    ])
+                }
+            }
+        }
+
         stage('Clone Repository') {
             steps {
                 sh 'rm -rf workspace_old workspace_new output || true'
