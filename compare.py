@@ -248,5 +248,5 @@ def compareMain(folder1,folder2):
     compare.generate_report(folder1, folder2)
 
 
-if __name__ == "__main__":
-    compareMain()
+# if __name__ == "__main__":
+#     compareMain()
