@@ -1,22 +1,39 @@
-class Queue:
-    def __init__(self):
-        self.items = []  # this will store our queue elements
+import logging
+from typing import Union
 
-    # Add item to the end of the queue
-    def enqueue(self, item):
-        self.items.append(item)
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-    # Remove item from the front of the queue
-    def dequeue(self):
-        if not self.is_empty():
-            return self.items.pop(0)  # remove first item
-        else:
-            return "Queue is empty"
+class Calculator:
+    def __init__(self, a: Union[int, float], b: Union[int, float]):
+        self.a = a
+        self.b = b
 
-    # Check if the queue is empty
-    def is_empty(self):
-        return len(self.items) == 0
+    def validate_inputs(self):
+        if not isinstance(self.a, (int, float)) or not isinstance(self.b, (int, float)):
+            raise ValueError("Both inputs must be numbers (int or float).")
 
-    # Show all elements in the queue
-    def display(self):
-        print("Queue:", self.items)
+    def add(self) -> float:
+        self.validate_inputs()
+        result = self.a + self.b
+        logger.info(f"Adding {self.a} + {self.b} = {result}")
+        return result
+
+def main():
+    try:
+        # Inputs can later be taken from user, config, or another module
+        a = 5
+        b = 7
+
+        calculator = Calculator(a, b)
+        result = calculator.add()
+        print(f"The sum is: {result}")
+
+    except ValueError as ve:
+        logger.error(f"Input error: {ve}")
+    except Exception as e:
+        logger.exception("An unexpected error occurred.")
+
+if __name__ == "__main__":
+    main()
