@@ -14,11 +14,11 @@ class Calculator:
         if not isinstance(self.a, (int, float)) or not isinstance(self.b, (int, float)):
             raise ValueError("Both inputs must be numbers (int or float).")
 
-    def add(self) -> float:
-        self.validate_inputs()
-        result = self.a + self.b
-        logger.info(f"Adding {self.a} + {self.b} = {result}")
-        return result
+    # def add(self) -> float:
+    #     self.validate_inputs()
+    #     result = self.a + self.b
+    #     logger.info(f"Adding {self.a} + {self.b} = {result}")
+    #     return result
 
 def main():
     try:
