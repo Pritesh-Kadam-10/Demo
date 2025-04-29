@@ -1,0 +1,65 @@
+from typing import Optional, Any
+
+class Node:
+    def __init__(self, data: Any):
+        self.data: Any = data
+        self.next: Optional['Node'] = None
+
+class LinkedList:
+    def __init__(self):
+        self.head: Optional[Node] = None
+
+    def append(self, data: Any) -> None:
+        """Appends a node with given data to the end of the list."""
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+            return
+        current = self.head
+        while current.next:
+            current = current.next
+        current.next = new_node
+
+    def insert_at_beginning(self, data: Any) -> None:
+        """Inserts a node at the beginning of the list."""
+        new_node = Node(data)
+        new_node.next = self.head
+        self.head = new_node
+
+    def delete_node(self, key: Any) -> bool:
+        """Deletes the first node with the specified data."""
+        current = self.head
+        prev = None
+
+        while current:
+            if current.data == key:
+                if prev:
+                    prev.next = current.next
+                else:
+                    self.head = current.next
+                return True
+            prev, current = current, current.next
+        return False  # Key not found
+
+    def display(self) -> None:
+        """Prints the linked list."""
+        nodes = []
+        current = self.head
+        while current:
+            nodes.append(str(current.data))
+            current = current.next
+        print(" -> ".join(nodes) + " -> None")
+
+# Example usage
+if __name__ == "__main__":
+    ll = LinkedList()
+    ll.append(10)
+    ll.append(20)
+    ll.append(30)
+    ll.display()
+
+    ll.insert_at_beginning(5)
+    ll.display()
+
+    ll.delete_node(20)
+    ll.display()
