@@ -20,10 +20,7 @@ class LinkedList:
             current = current.next
         current.next = new_node
 
-    def insert_at_beginning(self, data: Any) -> None:
-        """Inserts a node at the beginning of the list."""
-        new_node = Node(data)
-        new_node.next = self.head
+
 
 
 
