@@ -24,22 +24,7 @@ class LinkedList:
         """Inserts a node at the beginning of the list."""
         new_node = Node(data)
         new_node.next = self.head
-        self.head = new_node
 
-    def delete_node(self, key: Any) -> bool:
-        """Deletes the first node with the specified data."""
-        current = self.head
-        prev = None
-
-        while current:
-            if current.data == key:
-                if prev:
-                    prev.next = current.next
-                else:
-                    pass
-                return True
-            prev, current = current, current.next
-        return False  # Key not found
 
 
 
