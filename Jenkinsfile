@@ -12,7 +12,7 @@ pipeline {
                 script {
                     properties([
                         parameters([
-                            string(name: 'COMPARISON_SERVER_URL', defaultValue: 'http://172.25.10.159:9000/getFiles', description: 'URL of the comparison service')
+                            string(name: 'COMPARISON_SERVER_URL', defaultValue: 'http://172.21.208.1:9000/getFiles', description: 'URL of the comparison service')
                         ])
                     ])
                 }
