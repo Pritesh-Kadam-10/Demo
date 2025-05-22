@@ -61,5 +61,4 @@ if __name__ == "__main__":
     ll.insert_at_beginning(5)
     ll.display()
 
-    ll.delete_node(20)
-    ll.display()
+
