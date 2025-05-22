@@ -51,14 +51,5 @@ class LinkedList:
         print(" -> ".join(nodes) + " -> None")
 
 # Example usage
-if __name__ == "__main__":
-    ll = LinkedList()
-    ll.append(10)
-    ll.append(20)
-    ll.append(30)
-    ll.display()
-
-    ll.insert_at_beginning(5)
-    ll.display()
 
 
