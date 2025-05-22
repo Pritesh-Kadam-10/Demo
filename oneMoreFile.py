@@ -2,9 +2,6 @@ class Queue:
     def __init__(self):
         self.items = []  # this will store our queue elements
 
-    # Add item to the end of the queue
-    def enqueue(self, item):
-        self.items.append(item)
 
     # Remove item from the front of the queue
     def dequeue(self):

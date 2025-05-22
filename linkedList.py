@@ -36,19 +36,12 @@ class LinkedList:
                 if prev:
                     prev.next = current.next
                 else:
-                    self.head = current.next
+                    pass
                 return True
             prev, current = current, current.next
         return False  # Key not found
 
-    def display(self) -> None:
-        """Prints the linked list."""
-        nodes = []
-        current = self.head
-        while current:
-            nodes.append(str(current.data))
-            current = current.next
-        print(" -> ".join(nodes) + " -> None")
+
 
 # Example usage
 
