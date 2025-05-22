@@ -65,7 +65,7 @@ pipeline {
                         }
                         echo '✅ Old and new files are prepared inside output/ folder.'
                     } else {
-                        echo '⚠️ No files changed between the branches!'
+                        echo ⚠️ No files changed between the branches!'
                         sh 'mkdir -p output/empty'
                         sh 'echo "No changes detected." > output/empty/info.txt'
                     }
